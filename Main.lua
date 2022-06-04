@@ -5,7 +5,7 @@ function UiLibrary.init(name)
     local folder = game:GetObjects("rbxassetid://9820680667")[1]
 	local screenGui = folder.ScreenGui:Clone()
 	local menu = screenGui.Menu
-	menu.TopBar.Title = name
+	menu.TopBar.Title.Text = name
 	local colorable = {}
 	table.insert(colorable, menu.Border)
 	table.insert(colorable, menu.Tabs.Border)
@@ -33,7 +33,7 @@ function UiLibrary.init(name)
 	}, UiLibrary)
 end
 
-function UiLibrary:CreateTab(name, image)
+function UiLibrary:CreateTab(image)
     local tab = self.folder.Tab:Clone()
 	tab.Parent = self.screenGui.Menu.Tabs.Tab
 	tab.Tab.Image = image
