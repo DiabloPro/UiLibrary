@@ -13,11 +13,11 @@ function UiLibrary.init(name)
 
 	if syn then
 		syn.protect_gui(screenGui)
-		Screen.Parent = CoreGui
+		screenGui.Parent = CoreGui
 	elseif gethui then
-		Screen.Parent = gethui()
+		screenGui.Parent = gethui()
 	else
-		Screen.Parent = CoreGui
+		screenGui.Parent = CoreGui
 	end
 
 	menu.TopBar.Destroy.MouseButton1Click:Connect(function()
