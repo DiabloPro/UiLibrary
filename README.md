@@ -7,6 +7,7 @@ UiLibrary based off Octohook and Hydroxide
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/DiabloPro/UiLibrary/main/Main"))
 ```
 
+##### Documentation
 ```Lua
 local screenGui = Library.init() -- Creates the GUI
 
