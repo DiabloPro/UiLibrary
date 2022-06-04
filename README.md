@@ -14,3 +14,4 @@ local screenGui = Library.init() -- Creates the GUI
 local tab = screenGui:createTab(name, image) -- name is for indexing don't repeat it or it'll error
 ```
 
+## Images
