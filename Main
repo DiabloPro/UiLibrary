@@ -6,10 +6,6 @@ function UiLibrary.init(name)
 	local screenGui = folder.ScreenGui:Clone()
 	local menu = screenGui.Menu
 	menu.TopBar.Title = name
-	local colorable = {}
-	table.insert(colorable, menu.Border)
-	table.insert(colorable, menu.Tabs.Border)
-	table.insert(colorable, menu.Body.Border)
 	Screen.Parent = CoreGui
 
 	menu.TopBar.Destroy.MouseButton1Click:Connect(function()
@@ -23,17 +19,4 @@ function UiLibrary.init(name)
         colorable = colorable
 	}, UiLibrary)
 end
-
-function UiLibrary:CreateTab(name, image)
-    local tab = self.folder.Tab:Clone()
-	tab.Parent = self.screenGui.Menu.Tabs.Tab
-	tab.Tab.Image = image
-	self.windows[tab] = self.folder.Window:Clone()
-	self.windows[tab].Parent = self.screenGui.Body
-
-	tab.Tab.MouseButton1Click:Connect(function()
-		print("a")
-	end)
-end
-
 return UiLibrary
