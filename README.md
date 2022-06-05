@@ -29,7 +29,9 @@ Library:addKeybindBlacklist(keys) -- should also be a table you can add multiple
 
 Library:removeKeybindBlacklist(keys) -- same as previous
 
-local slider = section:createSlider(name, range, default, precentage, callback) --[[ range is the range of numbers you want it 
+local slider = section:createSlider(name, range, default, precentage, function(value)
+
+end) --[[ range is the range of numbers you want it 
 should look like {0, 100}. Precentage should be true or false ]]--
 ```
 
