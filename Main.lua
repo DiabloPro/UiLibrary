@@ -73,7 +73,7 @@ function tabs:createSection(name)
 	local section = folder.Section:Clone()
 	section.Parent = self.getLongestSide()
 	section.Title.Frame.TextLabel.Text = name
-	section.Title.Size = Udim2.new(0, section.Title.Frame.TextLabel.TextBounds.X, 0, 20) --[[[complete it]]--
+	section.Title.Size = UDim2.new(0, section.Title.Frame.TextLabel.TextBounds.X, 0, 20) --[[[complete it]]--
 	return setmetatable({
 		section = section,
 	}, objects)
@@ -102,7 +102,7 @@ function objects:createButton(name, callBack)
 end
 
 function objects:createToggle(name, keybindable, callBack)
-	
+
 end
 
 return UiLibrary
