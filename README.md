@@ -1,6 +1,7 @@
 ## Info
 UiLibrary based off Octohook and Hydroxide
-
+##### Disclaimer
+This is incomplete
 ## Script
 ##### Loadstring
 ```Lua
