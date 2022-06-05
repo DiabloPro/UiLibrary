@@ -28,6 +28,8 @@ local keyBindBlacklist = {
 function UiLibrary.init(name)
 	local screenGUI = folder.ScreenGui:Clone()
 	local menu = screenGUI.Menu
+	local dragChanged
+	local dragEnded
 	menu.TopBar.Title.Text = name
 	table.insert(colorable, menu.Border)
 	table.insert(colorable, menu.Tabs.Border)
@@ -44,6 +46,24 @@ function UiLibrary.init(name)
 
 	menu.TopBar.DestroyButton.MouseButton1Click:Connect(function()
 		screenGUI:Destroy()
+	end)
+
+	menu.TopBar.Drag.MouseButton1Down:Connect(function(x, y)
+		local dragStart = Vector3.new(x, y, 0)
+		local menuStart = menu.Position
+		dragChanged = UserInputService.InputChanged:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
+				local delta = inputObject.Position - dragStart
+				menu.Position = UDim2.new(menuStart.X.Scale, menuStart.X.Offset + delta.X, menuStart.Y.Scale, menuStart.Y.Offset + delta.Y + 35)
+			end
+		end)
+		
+		dragEnded = UserInputService.InputEnded:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+				dragChanged:Disconnect()
+				dragEnded:Disconnect()
+			end
+		end)
 	end)
 
 	return setmetatable({
@@ -269,9 +289,12 @@ function objects:createSlider(name, range, default, precentage, callBack)
 	end
 	AdjustSlider()
 
-	slider.Background.MouseButton1Down:Connect(function()
+	slider.Background.MouseButton1Down:Connect(function(x)
+		currentNumber = ((x - slider.Background.AbsolutePosition.X) / slider.Background.AbsoluteSize.X) + .005
+		AdjustSlider()
+		callBack(math.floor(currentNumber * (upper - lower) + lower))
 		dragging = UserInputService.InputChanged:Connect(function(inputObject)
-			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 				currentNumber = ((inputObject.Position.X - slider.Background.AbsolutePosition.X) / slider.Background.AbsoluteSize.X) + .005
 				AdjustSlider()
 				callBack(math.floor(currentNumber * (upper - lower) + lower))
@@ -292,4 +315,5 @@ function objects:createSlider(name, range, default, precentage, callBack)
 	end)
 	self.updateSection()
 end
+
 return UiLibrary
