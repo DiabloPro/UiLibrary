@@ -10,15 +10,7 @@ function UiLibrary.init(name)
 	table.insert(colorable, menu.Border)
 	table.insert(colorable, menu.Tabs.Border)
 	table.insert(colorable, menu.Body.Border)
-
-	if syn then
-		syn.protect_gui(screenGUI)
-		screenGUI.Parent = CoreGui
-	elseif gethui then
-		screenGUI.Parent = gethui()
-	else
-		screenGUI.Parent = CoreGui
-	end
+	screenGUI.Parent = CoreGui
 
 	menu.TopBar.DestroyButton.MouseButton1Click:Connect(function()
 		screenGUI:Destroy()
