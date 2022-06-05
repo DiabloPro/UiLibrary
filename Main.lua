@@ -3,8 +3,8 @@ UiLibrary.__index = UiLibrary
 
 function UiLibrary.init(name)
     local folder = game:GetObjects("rbxassetid://9820680667")[1]
-	local screenGui = folder.ScreenGui:Clone()
-	local menu = screenGui.Menu
+	local screenGUI = folder.ScreenGui:Clone()
+	local menu = screenGUI.Menu
 	menu.TopBar.Title.Text = name
 	local colorable = {}
 	table.insert(colorable, menu.Border)
@@ -12,41 +12,70 @@ function UiLibrary.init(name)
 	table.insert(colorable, menu.Body.Border)
 
 	if syn then
-		syn.protect_gui(screenGui)
-		screenGui.Parent = CoreGui
+		syn.protect_gui(screenGUI)
+		screenGUI.Parent = CoreGui
 	elseif gethui then
-		screenGui.Parent = gethui()
+		screenGUI.Parent = gethui()
 	else
-		screenGui.Parent = CoreGui
+		screenGUI.Parent = CoreGui
 	end
 
-	menu.TopBar.Destroy.MouseButton1Click:Connect(function()
-		screenGui:Destroy()
+	menu.TopBar.DestroyButton.MouseButton1Click:Connect(function()
+		screenGUI:Destroy()
 	end)
 
 	return setmetatable({
 		folder = folder,
-		screenGui = screenGui,
-		windows = {},
+		screenGUI = screenGUI,
         colorable = colorable,
 		selected = selected
 	}, UiLibrary)
 end
 
-function UiLibrary:CreateTab(image)
+local tab = {}
+tab.__index = tab
+
+function UiLibrary:createTab(image)
     local tab = self.folder.Tab:Clone()
-	tab.Parent = self.screenGui.Menu.Tabs.Tab
+	tab.Parent = self.screenGUI.Menu.Tabs.Tab
 	tab.Tab.Image = image
-	self.windows[tab] = self.folder.Window:Clone()
-	self.windows[tab].Parent = self.screenGui.Body
+	local window = self.folder.Window:Clone()
+	window.Parent = self.screenGUI.Body
 
 	if not self.selected then
 		selected = tab
+		selected.Visible = true
 	end
 
 	tab.Tab.MouseButton1Click:Connect(function()
-		print("a")
+		selected.Visible = false
+		selected = tab
+		selected.Visbile = true
 	end)
+	return setmetatable({
+		window = window
+	}, tab)
+end
+
+local function tab:getLongestSide()
+	if self.window.Left.ListLayout.AbsoluteContentSize.Y => self.window.Right.ListLayout.AbsoluteContentSize.Y then
+		return self.window.Left
+	else
+		return self.window.Right
+	end
+end
+
+local objects = {}
+objects.__index = objects
+
+function tab:createSection(name)
+	local section = self.folder.Section:Clone()
+	section.Parent = tab:getLongestSide()
+	section.Title.Frame.TextLabel.Text = name
+	section.Title.Size.X.Offset = section.Title.Frame.TextLabel.TextBounds.X
+	return setmetatable({
+		section = section
+	}, objects)
 end
 
 return UiLibrary
