@@ -10,7 +10,15 @@ function UiLibrary.init(name)
 	table.insert(colorable, menu.Border)
 	table.insert(colorable, menu.Tabs.Border)
 	table.insert(colorable, menu.Body.Border)
-	screenGUI.Parent = CoreGui
+
+	if syn then
+		syn.protect_gui(screenGUI)
+		screenGUI.Parent = CoreGui
+	elseif gethui then
+		screenGUI.Parent = gethui()
+	else
+		screenGUI.Parent = CoreGui
+	end
 
 	menu.TopBar.DestroyButton.MouseButton1Click:Connect(function()
 		screenGUI:Destroy()
@@ -32,7 +40,7 @@ function UiLibrary:createTab(image)
 	tab.Parent = self.screenGUI.Menu.Tabs.Tab
 	tab.Tab.Image = image
 	local window = self.folder.Window:Clone()
-	window.Parent = self.screenGUI.Body
+	window.Parent = self.screenGUI.Menu.Body
 
 	if not self.selected then
 		selected = tab
