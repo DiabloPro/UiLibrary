@@ -23,6 +23,12 @@ local toggle = section:createToggle(name, keybindable, function(boolean)
 
 end, default) -- if default is left nil boolean will automatically start as false
 
+Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
+
+Library:addKeybindBlacklist(keys) -- should also be a table you can add multiple keys
+
+Library:removeKeybindBlacklist(keys) -- same as previous
+
 ```
 
 ## Images
