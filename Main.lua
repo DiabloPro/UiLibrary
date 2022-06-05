@@ -53,16 +53,15 @@ function UiLibrary:createTab(image)
 		selected.Visbile = true
 	end)
 	return setmetatable({
-		window = window
+		window = window,
+		getLongestSide = function()
+			if self.window.Left.ListLayout.AbsoluteContentSize.Y >= self.window.Right.ListLayout.AbsoluteContentSize.Y then
+				return self.window.Left
+			else
+				return self.window.Right
+			end
+		end
 	}, tab)
-end
-
-local function tab:getLongestSide()
-	if self.window.Left.ListLayout.AbsoluteContentSize.Y => self.window.Right.ListLayout.AbsoluteContentSize.Y then
-		return self.window.Left
-	else
-		return self.window.Right
-	end
 end
 
 local objects = {}
@@ -70,7 +69,7 @@ objects.__index = objects
 
 function tab:createSection(name)
 	local section = self.folder.Section:Clone()
-	section.Parent = tab:getLongestSide()
+	section.Parent = self.getLongestSide()
 	section.Title.Frame.TextLabel.Text = name
 	section.Title.Size.X.Offset = section.Title.Frame.TextLabel.TextBounds.X
 	return setmetatable({
