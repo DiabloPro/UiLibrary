@@ -25,7 +25,7 @@ end, default) -- if default is left nil boolean will automatically start as fals
 
 Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
 
-Library:addKeybindBlacklist(keys) -- should also be a table you can add multiple keys
+Library:addKeybindBlacklist(keys) -- should also be a table you can add multiple values
 
 Library:removeKeybindBlacklist(keys) -- same as previous
 
