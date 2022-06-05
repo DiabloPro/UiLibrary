@@ -9,9 +9,12 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Diabl
 
 ##### Documentation
 ```Lua
-local screenGUI = Library.init() -- Creates the GUI
+local screenGUI = Library.init(name) -- Creates the GUI
 
 local tab = screenGUI:createTab(image)
+
+local section = tab:createSection(name)
+
 ```
 
 ## Images
