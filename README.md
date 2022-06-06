@@ -25,7 +25,7 @@ end, default) -- if default is left nil boolean will automatically start as fals
 ```
 <details>
   <pre>
-    <code class="language-lua">
+    <code class="language-css">
     Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
 
     Library:addKeybindBlacklist(keys) -- should also be a table adds values to blacklist
