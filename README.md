@@ -19,12 +19,16 @@ local button = section:createButton(name, function()
 
 end)
 
-local toggle = section:createToggle(name, function(boolean)
 
-end, default) -- if default is left nil boolean will automatically start as false
 ```
 <details>
-  <summary>Toggle</summary>
+  <summary>
+    <pre> 
+    local toggle = section:createToggle(name, function(boolean)
+
+end, default) -- if default is left nil boolean will automatically start as false
+    </pre>
+  </summary>
     <pre lang="lua">
 toggle:createSlider(name, range, default, precentage, function(value)
 
