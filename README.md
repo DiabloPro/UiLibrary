@@ -22,9 +22,9 @@ end)
 <details>
   <summary>Toggle
     <pre lang="lua"> 
-local toggle = section:createToggle(name, function(boolean)
-<br></br>
-end, default) -- if default is left nil boolean will automatically start as false
+local toggle = section:createToggle(name, function(boolean)<br>
+
+end, default) -- if default is left nil boolean will automatically start as false</br>
     </pre>
   </summary>
     <pre lang="lua">
