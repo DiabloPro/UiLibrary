@@ -18,8 +18,6 @@ local section = tab:createSection(name)
 local button = section:createButton(name, function()
 
 end)
-
-
 ```
 <details>
   <summary>Toggle
@@ -31,7 +29,7 @@ end, default) -- if default is left nil boolean will automatically start as fals
   </summary>
     <pre lang="lua">
 toggle:createSlider(name, range, default, precentage, function(value)
-
+<br></br>
 end) -- creates slider under the toggle
 <br></br>
 toggle:createBind() -- lets you keybind the toggle
@@ -47,8 +45,6 @@ Library:addKeybindBlacklist(keys) -- should also be a table adds values to black
 Library:removeKeybindBlacklist(keys) -- same as previous
   </pre>
 </details>
-
-
 ```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
 
