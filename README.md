@@ -13,7 +13,7 @@ local screenGUI = Library.init(name) -- Creates the GUI
 ```
 <details>
 <Lua>
-
+a
 </Lua>
 </details>
 local tab = screenGUI:createTab(image) -- Image should be 28x28 pixels
