@@ -45,6 +45,7 @@ Library:addKeybindBlacklist(keys) -- should also be a table adds values to black
 Library:removeKeybindBlacklist(keys) -- same as previous
   </pre>
 </details>
+
 ```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
 
