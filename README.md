@@ -22,10 +22,10 @@ end)
 
 ```
 <details>
-  <summary>
+  <summary>Toggle
     <pre> 
-    local toggle = section:createToggle(name, function(boolean)
-
+local toggle = section:createToggle(name, function(boolean)
+<p></p>
 end, default) -- if default is left nil boolean will automatically start as false
     </pre>
   </summary>
