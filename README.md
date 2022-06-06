@@ -19,18 +19,27 @@ local button = section:createButton(name, function()
 
 end)
 
-local toggle = section:createToggle(name, keybindable, function(boolean)
+local toggle = section:createToggle(name, function(boolean)
 
 end, default) -- if default is left nil boolean will automatically start as false
 ```
 <details>
   <summary>Toggle</summary>
     <pre lang="lua">
+toggle:createSlider(name, range, default, precentage, function(value)
+
+end) -- creates slider under the toggle
 <p></p>
-Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
+toggle:createBind() -- lets you keybind the toggle
+<p></p>
+toggle:setBind()
+<p></p>
+toggle:getBind() -- returns nil if no bind
+<p></p>
+Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"} (global)
 <p></p>
 Library:addKeybindBlacklist(keys) -- should also be a table adds values to blacklist
-
+<p></p>
 Library:removeKeybindBlacklist(keys) -- same as previous
   </pre>
 </details>
