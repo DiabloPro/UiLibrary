@@ -34,7 +34,7 @@ end) -- creates slider under the toggle
 <br></br>
 toggle:createBind() -- lets you keybind the toggle
 <br></br>
-toggle:setBind()
+toggle:setBind() -- must be an enum keycode
 <br></br>
 toggle:getBind() -- returns nil if no bind
 <br></br>
