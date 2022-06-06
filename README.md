@@ -25,13 +25,13 @@ end, default) -- if default is left nil boolean will automatically start as fals
 ```
 <details>
   <summary>Toggle</summary>
-    <pre lang="lua"><code>
+    <pre lang="lua">
 Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
 <p></p>
 Library:addKeybindBlacklist(keys) -- should also be a table adds values to blacklist
 <p></p>
 Library:removeKeybindBlacklist(keys) -- same as previous
-  </code></pre>
+  </pre>
 </details>
 ```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
