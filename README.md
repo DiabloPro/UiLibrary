@@ -7,7 +7,11 @@ This is incomplete
 ```Lua
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/DiabloPro/UiLibrary/main/Main.lua"))()
 ```
-
+<details>
+<summary>How do I dropdown?</summary>
+<br>
+This is how you dropdown.
+</details>
 ##### Documentation
 ```Lua
 local screenGUI = Library.init(name) -- Creates the GUI
