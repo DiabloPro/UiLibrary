@@ -35,15 +35,15 @@ toggle:createSlider(name, range, default, precentage, function(value)
 end) -- creates slider under the toggle
 <br></br>
 toggle:createBind() -- lets you keybind the toggle
-<p></p>
+<br></br>
 toggle:setBind()
-<p></p>
+<br></br>
 toggle:getBind() -- returns nil if no bind
-<p></p>
+<br></br>
 Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"} (global)
-<p></p>
+<br></br>
 Library:addKeybindBlacklist(keys) -- should also be a table adds values to blacklist
-<p></p>
+<br></br>
 Library:removeKeybindBlacklist(keys) -- same as previous
   </pre>
 </details>
