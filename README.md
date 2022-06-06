@@ -34,6 +34,12 @@ end, default) -- if default is left nil boolean will automatically start as fals
     </code>
   </pre>
 </details>
+
+<pre class="line-numbers">
+   <code class="language-css">
+      p { color: red }
+   </code>
+</pre>
 ```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
 
