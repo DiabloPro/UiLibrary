@@ -12,9 +12,9 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Diabl
 local screenGUI = Library.init(name) -- Creates the GUI
 ```
 <details>
-<pre>
-a
-</pre>
+<Lua>
+
+</Lua>
 </details>
 local tab = screenGUI:createTab(image) -- Image should be 28x28 pixels
 
