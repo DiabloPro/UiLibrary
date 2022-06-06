@@ -33,7 +33,7 @@ end, default) -- if default is left nil boolean will automatically start as fals
 toggle:createSlider(name, range, default, precentage, function(value)
 
 end) -- creates slider under the toggle
-<p></p>
+<br></br>
 toggle:createBind() -- lets you keybind the toggle
 <p></p>
 toggle:setBind()
@@ -47,6 +47,8 @@ Library:addKeybindBlacklist(keys) -- should also be a table adds values to black
 Library:removeKeybindBlacklist(keys) -- same as previous
   </pre>
 </details>
+
+
 ```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
 
