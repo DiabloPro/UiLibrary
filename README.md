@@ -10,10 +10,6 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Diabl
 ##### Documentation
 ```Lua
 local screenGUI = Library.init(name) -- Creates the GUI
-<details>
-
-</details>
-```
 
 local tab = screenGUI:createTab(image) -- Image should be 28x28 pixels
 
@@ -26,13 +22,18 @@ end)
 local toggle = section:createToggle(name, keybindable, function(boolean)
 
 end, default) -- if default is left nil boolean will automatically start as false
-
+```
+<details>
+  <pre>
+    
 Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
 
 Library:addKeybindBlacklist(keys) -- should also be a table adds values to blacklist
 
 Library:removeKeybindBlacklist(keys) -- same as previous
-
+  </pre>
+</details>
+```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
 
 end) --[[ range is the range of numbers you want it 
