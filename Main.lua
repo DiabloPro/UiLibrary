@@ -205,16 +205,27 @@ function objects:createButton(name, callBack)
 	self.updateSection()
 end
 
-function objects:createToggle(name, keybindable, callBack, default)
+local toggles = {}
+toggles.__index = toggles
+local booleans = {}
+
+local Id = 0
+local function generateId()
+	Id += 1
+	return Id
+end
+
+function objects:createToggle(name, callBack, default)
 	local toggle = folder.Toggle:Clone()
 	toggle.Parent = self.section.Holder
 	toggle.Title.Text = name
-	local bool = default or false
 	table.insert(colorable, toggle.Button.Border)
 	table.insert(colorable, toggle.Button)
+	local Id = generateId()
+	booleans[Id] = default or false
 
 	local function setColor()
-		if bool then
+		if booleans[Id] then
 			toggle.Button.BackgroundColor3 = theme
 		else
 			toggle.Button.BackgroundColor3 = Color3.fromRGB(25,25,25)
@@ -223,48 +234,127 @@ function objects:createToggle(name, keybindable, callBack, default)
 	setColor()
 
 	toggle.Button.MouseButton1Click:Connect(function()
-		bool = not bool
+		booleans[Id] = not booleans[Id]
 		setColor()
-		callBack(bool)
+		callBack(booleans[Id])
 	end)
 
-	if keybindable then
-		local binded
-		local binding = false
+	self.updateSection()
 
-		toggle.KeyBind.Button.MouseButton1Click:Connect(function()
-			toggle.KeyBind.Button.TextLabel.Text = "[ ... ]"
-			binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
-				if not gameProcessed then
-					local key = inputObject.KeyCode.Name
-					if not table.find(keyBindBlacklist, key) then
-						binded = key
-						toggle.KeyBind.Button.TextLabel.Text = "[ "..key.." ]"
-						binding:Disconnect()
-						binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
-							if not gameProcessed then
-								if inputObject.KeyCode.Name == binded then
-									bool = not bool
-									setColor()
-									callBack(bool)
-								end
+	return setmetatable({
+		toggle = toggle,
+		Id = Id,
+		callBack = callBack,
+		setColor = setColor,
+		updateSection = self.updateSection
+	}, toggles)
+end
+
+function toggles:createBind()
+	local bind = folder.KeyBind:Clone()
+	bind.Parent = self.toggle
+	self.binded = nil
+	self.binding = false
+
+	bind.Button.MouseButton1Click:Connect(function()
+		bind.Button.TextLabel.Text = "[ ... ]"
+		self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
+			if not gameProcessed then
+				local key = inputObject.KeyCode.Name
+				if not table.find(keyBindBlacklist, key) then
+					self.binded = key
+					bind.Button.TextLabel.Text = "[ "..self.binded.." ]"
+					self.binding:Disconnect()
+					self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
+						if not gameProcessed then
+							if inputObject.KeyCode.Name == self.binded then
+								booleans[self.Id] = not booleans[self.Id]
+								self.setColor()
+								self.callBack(booleans[self.Id])
 							end
-						end)
-					end
+						end
+					end)
 				end
-			end)
-			
-		end)
-
-		toggle.KeyBind.Button.MouseButton2Click:Connect(function()
-			if binding then
-				toggle.KeyBind.Button.TextLabel.Text = "[ None ]"
-				binding:Disconnect()
 			end
 		end)
-	else
-		toggle.KeyBind:Destroy()
+	end)
+
+	bind.Button.MouseButton2Click:Connect(function()
+		if self.binding then
+			bind.Button.TextLabel.Text = "[ None ]"
+			self.binding:Disconnect()
+		end
+	end)
+end
+
+function toggles:setBind(key)
+	self.binded = key.KeyCode.Name
+	self.toggle.KeyBind.Button.TextLabel.Text = "[ "..self.binded.." ]"
+	self.binding:Disconnect()
+	self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
+		if not gameProcessed then
+			if inputObject.KeyCode.Name == self.binded then
+				booleans[self.Id] = not booleans[self.Id]
+				self.setColor()
+				self.callBack(booleans[self.Id])
+			end
+		end
+	end)
+end
+
+function toggles:getBind()
+	return self.binded
+end
+
+local function handleSlider(slider, range, default, precentage, callBack)
+	local upper = range[2]
+	local lower = range[1]
+	local currentNumber = (default - lower) / (upper - lower)
+	local dragging
+	table.insert(colorable,	slider.Slider)
+	table.insert(colorable,	slider.Border)
+
+	local function AdjustSlider()
+		slider.Slider.Size = UDim2.new(currentNumber, 0, 1, 0)
+		if precentage then
+			slider.TextLabel.Text = math.floor(currentNumber * 100).."% / 100%"
+		else
+			slider.TextLabel.Text = math.floor(currentNumber * (upper - lower) + lower).." / "..upper
+		end
 	end
+	AdjustSlider()
+
+	slider.MouseButton1Down:Connect(function(x)
+		currentNumber = ((x - slider.AbsolutePosition.X) / slider.AbsoluteSize.X) + .005
+		AdjustSlider()
+		callBack(math.floor(currentNumber * (upper - lower) + lower))
+		dragging = UserInputService.InputChanged:Connect(function(inputObject)
+			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
+				currentNumber = ((inputObject.Position.X - slider.AbsolutePosition.X) / slider.AbsoluteSize.X) + .005
+				AdjustSlider()
+				callBack(math.floor(currentNumber * (upper - lower) + lower))
+			end
+		end)
+	end)
+
+	slider.MouseLeave:Connect(function()
+		if dragging then
+			dragging:Disconnect()
+		end
+	end)
+
+	slider.MouseButton1Up:Connect(function()
+		if dragging then
+			dragging:Disconnect()
+		end
+	end)
+end
+
+function toggles:createSlider(range, default, precentage, callBack)
+	local slider = folder.ToggleSlider:Clone()
+	self.toggle.Size = self.toggle.Size + UDim2.new(0, 0, 0, 20)
+	slider.Parent = self.toggle
+	handleSlider(slider, range, default, precentage, callBack)
 	self.updateSection()
 end
 
@@ -272,47 +362,7 @@ function objects:createSlider(name, range, default, precentage, callBack)
 	local slider = folder.Slider:Clone()
 	slider.Parent = self.section.Holder
 	slider.Title.Text = name
-	local upper = range[2]
-	local lower = range[1]
-	local currentNumber = (default - lower) / (upper - lower)
-	local dragging
-	table.insert(colorable,	slider.Background)
-	table.insert(colorable,	slider.Background.Border)
-
-	local function AdjustSlider()
-		slider.Background.Slider.Size = UDim2.new(currentNumber, 0, 1, 0)
-		if precentage then
-			slider.Background.TextLabel.Text = math.floor(currentNumber * 100).."% / 100%"
-		else
-			slider.Background.TextLabel.Text = math.floor(currentNumber * (upper - lower) + lower).." / "..upper
-		end
-	end
-	AdjustSlider()
-
-	slider.Background.MouseButton1Down:Connect(function(x)
-		currentNumber = ((x - slider.Background.AbsolutePosition.X) / slider.Background.AbsoluteSize.X) + .005
-		AdjustSlider()
-		callBack(math.floor(currentNumber * (upper - lower) + lower))
-		dragging = UserInputService.InputChanged:Connect(function(inputObject)
-			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
-				currentNumber = ((inputObject.Position.X - slider.Background.AbsolutePosition.X) / slider.Background.AbsoluteSize.X) + .005
-				AdjustSlider()
-				callBack(math.floor(currentNumber * (upper - lower) + lower))
-			end
-		end)
-	end)
-
-	slider.Background.MouseLeave:Connect(function()
-		if dragging then
-			dragging:Disconnect()
-		end
-	end)
-
-	slider.Background.MouseButton1Up:Connect(function()
-		if dragging then
-			dragging:Disconnect()
-		end
-	end)
+	handleSlider(slider.Background, range, default, precentage, callBack)
 	self.updateSection()
 end
 
