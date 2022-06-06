@@ -24,8 +24,8 @@ local toggle = section:createToggle(name, keybindable, function(boolean)
 end, default) -- if default is left nil boolean will automatically start as false
 ```
 <details>
-  <pre>
-    <code class="language-css">
+  <pre lang="lua">
+    <code>
     Library:setKeybindBlacklist(blacklist) -- blacklist should be a table like {"W","A","S","D"}
 
     Library:addKeybindBlacklist(keys) -- should also be a table adds values to blacklist
@@ -34,12 +34,6 @@ end, default) -- if default is left nil boolean will automatically start as fals
     </code>
   </pre>
 </details>
-
-<pre class="line-numbers">
-   <code class="language-css">
-      p { color: red }
-   </code>
-</pre>
 ```Lua
 local slider = section:createSlider(name, range, default, precentage, function(value)
 
