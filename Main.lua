@@ -250,7 +250,7 @@ function objects:createToggle(name, callBack, default)
 	}, toggles)
 end
 
-function toggles:createBind()
+function toggles:createBind(callBack)
 	local bind = folder.KeyBind:Clone()
 	bind.Parent = self.toggle
 	self.binded = nil
@@ -264,6 +264,9 @@ function toggles:createBind()
 				if not table.find(keyBindBlacklist, key) then
 					self.binded = key
 					bind.Button.TextLabel.Text = "[ "..self.binded.." ]"
+					if callBack then
+						callBack(key)
+					end
 					self.binding:Disconnect()
 					self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
 						if not gameProcessed then
