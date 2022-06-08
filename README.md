@@ -32,9 +32,11 @@ toggle:createSlider(name, range, default, precentage, function(value)
 <br></br>
 end) -- creates slider under the toggle
 <br></br>
-toggle:createBind() -- lets you keybind the toggle
+toggle:createBind(function(bind)
+
+end) -- lets you keybind the toggle, function is optional and fires when bind is changed
 <br></br>
-toggle:setBind() -- must be an enum keycode
+toggle:setBind() -- must be an enum keycode does not fire createBind callback
 <br></br>
 toggle:getBind() -- returns nil if no bind
 <br></br>
