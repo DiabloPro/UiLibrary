@@ -53,6 +53,7 @@ function UiLibrary.init(name)
 		local menuStart = menu.Position
 		dragChanged = UserInputService.InputChanged:Connect(function(inputObject, gameProcessed)
 			if not gameProcessed then
+				print("a")
 				dragChanged:Disconnect()
 				dragEnded:Disconnect()
 			else
