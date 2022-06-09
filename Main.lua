@@ -309,6 +309,14 @@ function toggles:getBind()
 	return self.binded
 end
 
+function toggles:setToggle(boolean)
+	if boolean == true or boolean == false then
+		booleans[self.Id] = boolean
+		self.setColor()
+		self.callBack(boolean)
+	end
+end
+
 local function handleSlider(slider, range, default, precentage, callBack)
 	local upper = range[2]
 	local lower = range[1]
