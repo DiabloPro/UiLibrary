@@ -51,10 +51,15 @@ function UiLibrary.init(name)
 	menu.TopBar.Drag.MouseButton1Down:Connect(function(x, y)
 		local dragStart = Vector3.new(x, y, 0)
 		local menuStart = menu.Position
-		dragChanged = UserInputService.InputChanged:Connect(function(inputObject)
-			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
-				local delta = inputObject.Position - dragStart
-				menu.Position = UDim2.new(menuStart.X.Scale, menuStart.X.Offset + delta.X, menuStart.Y.Scale, menuStart.Y.Offset + delta.Y + 35)
+		dragChanged = UserInputService.InputChanged:Connect(function(inputObject, gameProcessed)
+			if not gameProcessed then
+				dragChanged:Disconnect()
+				dragEnded:Disconnect()
+			else
+				if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
+					local delta = inputObject.Position - dragStart
+					menu.Position = UDim2.new(menuStart.X.Scale, menuStart.X.Offset + delta.X, menuStart.Y.Scale, menuStart.Y.Offset + delta.Y + 35)
+				end
 			end
 		end)
 		
