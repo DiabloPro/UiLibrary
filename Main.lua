@@ -30,6 +30,7 @@ function UiLibrary.init(name)
 	local menu = screenGUI.Menu
 	local dragChanged
 	local dragEnded
+	local windowFocused
 	menu.TopBar.Title.Text = name
 	table.insert(colorable, menu.Border)
 	table.insert(colorable, menu.Tabs.Border)
@@ -52,6 +53,11 @@ function UiLibrary.init(name)
 		local dragStart = Vector3.new(x, y, 0)
 		local menuStart = menu.Position
 		dragChanged = UserInputService.InputChanged:Connect(function(inputObject, gameProcessed)
+			windowFocused = UserInputService.WindowFocused:Connect(function()
+				dragChanged:Disconnect()
+				dragEnded:Disconnect()
+				windowFocused:Disconnect()
+			end)
 			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 				local delta = inputObject.Position - dragStart
 				menu.Position = UDim2.new(menuStart.X.Scale, menuStart.X.Offset + delta.X, menuStart.Y.Scale, menuStart.Y.Offset + delta.Y + 35)
@@ -62,6 +68,7 @@ function UiLibrary.init(name)
 			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
 				dragChanged:Disconnect()
 				dragEnded:Disconnect()
+				windowFocused:Disconnect()
 			end
 		end)
 	end)
