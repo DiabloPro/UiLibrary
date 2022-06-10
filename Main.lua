@@ -262,6 +262,7 @@ function toggles:createBind(callBack)
 	bind.Parent = self.toggle
 	self.binded = nil
 	self.binding = false
+	self.bindcallBack = callBack
 
 	bind.Button.MouseButton1Click:Connect(function()
 		bind.Button.TextLabel.Text = "[ ... ]"
@@ -292,6 +293,9 @@ function toggles:createBind(callBack)
 	bind.Button.MouseButton2Click:Connect(function()
 		if self.binding then
 			bind.Button.TextLabel.Text = "[ None ]"
+			if self.bindcallBack then
+				self.bindcallBack(nil)
+			end
 			self.binding:Disconnect()
 		end
 	end)
