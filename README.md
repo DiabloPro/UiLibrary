@@ -38,7 +38,7 @@ toggle:setToggle(boolean) -- fires CallBack
 <br></br>
 end) -- lets you keybind the toggle, function is optional and fires when bind is changed
 <br></br>
-toggle:setBind() -- must be an enum keycode does not fire createBind callback
+toggle:setBind() -- must be a keycode name does not fire createBind callback
 <br></br>
 toggle:getBind() -- returns nil if no bind
 <br></br>
