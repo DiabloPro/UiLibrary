@@ -3,6 +3,7 @@ UiLibrary.__index = UiLibrary
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
+local ContextActionService = game:GetService("ContextActionService")
 
 local folder = game:GetObjects("rbxassetid://9820680667")[1]
 local colorable = {}
@@ -283,32 +284,37 @@ function toggles:createBind(callBack)
 						callBack(key)
 					end
 					self.binding:Disconnect()
-					self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
-						if not gameProcessed then
-							if inputObject.KeyCode.Name == self.binded then
-								booleans[self.Id] = not booleans[self.Id]
-								self.setColor()
-								self.callBack(booleans[self.Id])
-							end
+					ContextActionService:BindAction(self.Id, function(actionName, inputState, inputObject)
+						if inputState == Enum.UserInputState.Begin then
+							booleans[self.Id] = not booleans[self.Id]
+							self.setColor()
+							self.callBack(booleans[self.Id])
 						end
-					end)
+						return Enum.ContextActionResult.Pass
+					end, false, Enum.KeyCode[key])
 				end
 			end
 		end)
 	end)
 
 	bind.Button.MouseButton2Click:Connect(function()
+		bind.Button.TextLabel.Text = "[ None ]"
+		if self.bindcallBack then
+			self.bindcallBack(nil)
+		end
+		if self.binded then
+			ContextActionService:UnbindAction(self.Id)
+		end
 		if self.binding then
-			bind.Button.TextLabel.Text = "[ None ]"
-			if self.bindcallBack then
-				self.bindcallBack(nil)
-			end
 			self.binding:Disconnect()
 		end
 	end)
 end
 
 function toggles:setBind(key)
+	if self.binded then
+		ContextActionService:UnbindAction(self.Id)
+	end
 	if key == nil then
 		self.toggle.KeyBind.Button.TextLabel.Text = "[ None ]"
 		self.binded = nil
@@ -318,15 +324,14 @@ function toggles:setBind(key)
 		if self.binding then
 			self.binding:Disconnect()
 		end
-		self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
-			if not gameProcessed then
-				if inputObject.KeyCode.Name == self.binded then
-					booleans[self.Id] = not booleans[self.Id]
-					self.setColor()
-					self.callBack(booleans[self.Id])
-				end
+		ContextActionService:BindAction(self.Id, function(actionName, inputState, inputObject)
+			if inputState == Enum.UserInputState.Begin then
+				booleans[self.Id] = not booleans[self.Id]
+				self.setColor()
+				self.callBack(booleans[self.Id])
 			end
-		end)
+			return Enum.ContextActionResult.Pass
+		end, false, Enum.KeyCode[key])
 	end
 end
 
@@ -364,24 +369,28 @@ local function handleSlider(slider, range, default, precentage, callBack)
 		currentNumber = ((x - slider.AbsolutePosition.X) / slider.AbsoluteSize.X) + .005
 		AdjustSlider()
 		callBack(math.floor(currentNumber * (upper - lower) + lower))
-		dragging = UserInputService.InputChanged:Connect(function(inputObject)
+		dragging = true
+		ContextActionService:BindAction("DraggingSlider", function(actionName, inputState, inputObject)
 			if inputObject.UserInputType == Enum.UserInputType.MouseMovement then
 				currentNumber = ((inputObject.Position.X - slider.AbsolutePosition.X) / slider.AbsoluteSize.X) + .005
 				AdjustSlider()
 				callBack(math.floor(currentNumber * (upper - lower) + lower))
 			end
-		end)
+			return Enum.ContextActionResult.Pass
+		end, false, Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseMovement)
 	end)
 
 	slider.MouseLeave:Connect(function()
 		if dragging then
-			dragging:Disconnect()
+			ContextActionService:UnbindAction("DraggingSlider")
+			dragging = nil
 		end
 	end)
 
 	slider.MouseButton1Up:Connect(function()
 		if dragging then
-			dragging:Disconnect()
+			ContextActionService:UnbindAction("DraggingSlider")
+			dragging = nil
 		end
 	end)
 end
