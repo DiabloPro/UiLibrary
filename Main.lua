@@ -75,7 +75,7 @@ function UiLibrary.init(name)
 	end)
 
 	UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
-		if inputObject == Enum.KeyCode.RightControl and not gameProcessedEvent then
+		if inputObject.KeyCode == Enum.KeyCode.RightControl and not gameProcessedEvent then
 			screenGUI.Menu.Visible = not screenGUI.Menu.Visible
 		end
 	end)
