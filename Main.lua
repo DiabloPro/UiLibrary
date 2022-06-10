@@ -300,7 +300,9 @@ end
 function toggles:setBind(key)
 	self.binded = key
 	self.toggle.KeyBind.Button.TextLabel.Text = "[ "..self.binded.." ]"
-	self.binding:Disconnect()
+	if self.binding then
+		self.binding:Disconnect()
+	end
 	self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
 		if not gameProcessed then
 			if inputObject.KeyCode.Name == self.binded then
