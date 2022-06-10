@@ -298,7 +298,7 @@ function toggles:createBind(callBack)
 end
 
 function toggles:setBind(key)
-	self.binded = key.KeyCode.Name
+	self.binded = key
 	self.toggle.KeyBind.Button.TextLabel.Text = "[ "..self.binded.." ]"
 	self.binding:Disconnect()
 	self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
