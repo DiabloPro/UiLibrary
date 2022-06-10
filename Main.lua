@@ -22,7 +22,8 @@ local keyBindBlacklist = {
 	"Space",
 	"Delete",
 	"Unknown",
-	"Backquote"
+	"Backquote",
+	"RightControl",
 }
 
 function UiLibrary.init(name)
@@ -71,6 +72,12 @@ function UiLibrary.init(name)
 				windowFocused:Disconnect()
 			end
 		end)
+	end)
+
+	UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
+		if inputObject == Enum.KeyCode.RightControl and not gameProcessedEvent then
+			screenGUI.Menu.Visible = not screenGUI.Menu.Visible
+		end
 	end)
 
 	return setmetatable({
