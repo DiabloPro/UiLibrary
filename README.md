@@ -34,9 +34,9 @@ end) -- creates slider under the toggle
 <br></br>
 toggle:createBind(function(bind)
 <br></br>
-toggle:setToggle(boolean) -- fires CallBack
-<br></br>
 end) -- lets you keybind the toggle, function is optional and fires when bind is changed
+<br></br>
+toggle:setToggle(boolean) -- fires CallBack
 <br></br>
 toggle:setBind(key) -- must be a keycode name does not fire createBind callback can also be left as nil for no key
 <br></br>
