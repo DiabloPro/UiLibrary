@@ -302,20 +302,25 @@ function toggles:createBind(callBack)
 end
 
 function toggles:setBind(key)
-	self.binded = key
-	self.toggle.KeyBind.Button.TextLabel.Text = "[ "..self.binded.." ]"
-	if self.binding then
-		self.binding:Disconnect()
-	end
-	self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
-		if not gameProcessed then
-			if inputObject.KeyCode.Name == self.binded then
-				booleans[self.Id] = not booleans[self.Id]
-				self.setColor()
-				self.callBack(booleans[self.Id])
-			end
+	if key == nil then
+		self.toggle.KeyBind.Button.TextLabel.Text = "[ None ]"
+		self.binded = nil
+	else
+		self.binded = key
+		self.toggle.KeyBind.Button.TextLabel.Text = "[ "..self.binded.." ]"
+		if self.binding then
+			self.binding:Disconnect()
 		end
-	end)
+		self.binding = UserInputService.InputBegan:Connect(function(inputObject, gameProcessed)
+			if not gameProcessed then
+				if inputObject.KeyCode.Name == self.binded then
+					booleans[self.Id] = not booleans[self.Id]
+					self.setColor()
+					self.callBack(booleans[self.Id])
+				end
+			end
+		end)
+	end
 end
 
 function toggles:getBind()
