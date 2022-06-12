@@ -109,6 +109,14 @@ function UiLibrary:removeKeybindBlacklist(blacklist)
 	end
 end
 
+function UiLibrary:Hide()
+	self.screenGUI.Menu.Visible = false
+end
+
+function UiLibrary:Show()
+	self.screenGUI.Menu.Visible = true
+end
+
 local tabs = {}
 tabs.__index = tabs
 
